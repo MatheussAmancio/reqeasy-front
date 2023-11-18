@@ -98,8 +98,8 @@ export default function projectCreate() {
           <div className="mb-4">
             <Input
               title="Nome do Projeto"
-              type="text" 
-              name="title" 
+              type="text"
+              name="title"
               id="Text"
               placeholder="Digite o nome do projeto..."
               value={formState.title}

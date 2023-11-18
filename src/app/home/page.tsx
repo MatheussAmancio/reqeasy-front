@@ -124,8 +124,7 @@ export default function SignIn() {
     try {
       const userDataJSON = localStorage.getItem('userData');
       const userDataObject = JSON.parse(String(userDataJSON));
-      await axios.patch(
-        `${routerServer}/api/project/${projectId}`,
+      await axios.patch(`${routerServer}/api/project/${projectId}`,
         {
           status: 'PROCESSING'
         },
@@ -136,8 +135,7 @@ export default function SignIn() {
         }
       );
 
-      const response = await axios.patch(
-        `${routerServer}/api/project/${projectId}`,
+      const response = await axios.patch(`${routerServer}/api/project/${projectId}`,
         {
           status: 'COMPLETED'
         },

@@ -9,9 +9,6 @@ export function Sidebar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
 
-  useEffect(() => {
-
-  }, []);
 
   useEffect(() => {
 
@@ -43,7 +40,7 @@ export function Sidebar() {
           <li>Entrar em Projetos</li>
         </div>
         <div
-          onClick={() => route.push('/reports')}
+          onClick={() => route.push('/report')}
           className="text-sm p-2 hover:bg-gray-200 cursor-pointer w-full"
         >
           <li>Relatórios</li>

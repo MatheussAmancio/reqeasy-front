@@ -13,6 +13,7 @@ import jwt_decode from 'jwt-decode';
 export default function SignIn() {
     const route = useRouter()
     const [modo, setModo] = useState<'login' | 'cadastro'>('login')
+    const [errors, setError] = useState<string>('');
 
     const [formState, setFormState] = useState<SigninInterface>({
         name: '',
@@ -29,16 +30,24 @@ export default function SignIn() {
 
     async function handleSignup(event: React.FormEvent) {
         event.preventDefault();
-        console.log('Email:', formState.email);
-        console.log('Senha:', formState.password);
-        const response = await axios.post(`${routerServer}/api/users`, {
-            email: formState.email,
-            name: formState.name,
-            password: formState.password
-        });
 
-        await handleSignin(event);
-        console.log(response)
+        try {
+            console.log('Email:', formState.email);
+            console.log('Senha:', formState.password);
+            const response = await axios.post(`${routerServer}/api/users`, {
+                email: formState.email,
+                name: formState.name,
+                password: formState.password
+            });
+
+            console.log(response);
+
+            // Somente chame handleSignin se a criação do usuário for bem-sucedida
+            handleSignin(event)
+        } catch (error) {
+            console.error('Erro ao criar usuário:', error);
+            setError('Usuário já existe ou ocorreu um erro durante a criação.');
+        }
     }
 
     async function handleSignin(event: React.FormEvent) {
@@ -72,6 +81,7 @@ export default function SignIn() {
             route.push(`/home`);
         } catch (error) {
             console.error('Erro ao gerar token:', error);
+            setError('Email ou senha incorretos. Por favor, verifique suas credenciais.');
         }
     }
 
@@ -147,6 +157,11 @@ export default function SignIn() {
                             )}
 
                         </form>
+                        {errors && (
+                            <div className="text-red-600 font-semibold text-sm mt-2">
+                                {errors}
+                            </div>
+                        )}
                     </div>
 
                 </div>

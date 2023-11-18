@@ -19,16 +19,19 @@ export type TaskInterface = {
 type ProjectCardProps = {
     task: TaskInterface;
     onDelete: (taskId: string) => void; // Função para lidar com a exclusão
-    onToggleComplete: (taskId: string) => void; // Função para lidar com a conclusão
+    onUpdateStatus: (taskId: string, newStatus: string) => void;  // Função para lidar com a conclusão
 };
 
-export function TaskCard({ task, onDelete, onToggleComplete }: ProjectCardProps) {
+export function TaskCard({ task, onDelete, onUpdateStatus }: ProjectCardProps) {
+    const [isChecked, setIsChecked] = useState(task.status === 'COMPLETED');
     const handleDeleteClick = () => {
         onDelete(task.id); // Chama a função onDelete passando o ID da tarefa
     };
 
     const handleToggleComplete = () => {
-        onToggleComplete(task.id); // Chama a função onToggleComplete passando o ID da tarefa
+        const newStatus = isChecked ? 'PROCESSING' : 'COMPLETED';
+        onUpdateStatus(task.id, newStatus);
+        setIsChecked(!isChecked);// Chama a função onToggleComplete passando o ID da tarefa
     };
 
     const isVeryLowPriority = task.priority === 'VERY_LOW';
@@ -39,9 +42,9 @@ export function TaskCard({ task, onDelete, onToggleComplete }: ProjectCardProps)
                 <div className="flex items-center">
                     <input
                         type="checkbox"
-                        checked={task.status === 'COMPLETED'}
+                        checked={isChecked}
                         onChange={handleToggleComplete}
-                        className={`w-4 h-4 mr-2 ${task.status === 'COMPLETED' ? 'completed' : ''} cursor-pointer`}
+                        className={`w-4 h-4 mr-2 ${task.status === 'COMPLETED' ? 'PROCESSING' : ''} cursor-pointer`}
                     />
                     <div
                         style={{
